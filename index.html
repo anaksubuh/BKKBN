@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,24 +10,32 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        select, input, button {
+
+        select,
+        input,
+        button {
             padding: 10px;
             margin: 5px 0;
             width: 200px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-        th, td {
+
+        th,
+        td {
             padding: 10px;
             text-align: left;
             border: 1px solid #ddd;
         }
+
         .container {
             margin-top: 20px;
         }
+
         .form-container {
             margin-bottom: 20px;
             border: 1px solid #ddd;
@@ -35,6 +44,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <h1>Data Keluarga Berdasarkan Kelurahan, RW, dan RT</h1>
@@ -135,7 +145,7 @@
     </div>
 
     <script>
-        const GITHUB_API_URL = "https://api.github.com/repos/anaksubuh/BKKBN/contents/data.json";
+        const GITHUB_API_URL = "https://api.github.com/repos/anaksubuh/bkkbn.github.io/contents/data.json";
         const GITHUB_TOKEN = "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";
 
         async function updateRWOptions() {
@@ -198,6 +208,7 @@
 
         async function saveToGitHub(data) {
             const content = btoa(JSON.stringify(data, null, 2));
+            const sha = await getSha();
             const response = await fetch(GITHUB_API_URL, {
                 method: "PUT",
                 headers: {
@@ -207,33 +218,45 @@
                 body: JSON.stringify({
                     message: "Update data",
                     content: content,
-                    sha: await getSha()
+                    ...(sha ? { sha } : {})
                 })
             });
 
+            const result = await response.json();
             if (response.ok) {
                 alert("Data berhasil disimpan di GitHub!");
             } else {
-                console.error("Gagal menyimpan data", await response.text());
+                console.error("Gagal menyimpan data:", result);
             }
+        }
+
+
+        if (response.ok) {
+            alert("Data berhasil disimpan di GitHub!");
+        } else {
+            console.error("Gagal menyimpan data", await response.text());
+        }
         }
 
         async function getSha() {
             try {
                 const response = await fetch(GITHUB_API_URL, {
-                    headers: {
-                        Authorization: `Bearer ${GITHUB_TOKEN}`
-                    }
+                    headers: { Authorization: `Bearer ${GITHUB_TOKEN}` }
                 });
-                const data = await response.json();
-                return data.sha;
-            } catch {
-                return null;
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.sha; // Return SHA jika file ada
+                }
+            } catch (error) {
+                console.warn("File tidak ditemukan atau error: ", error);
             }
+            return null; // Return null jika file tidak ditemukan
         }
+
 
         document.addEventListener("DOMContentLoaded", updateRWOptions);
     </script>
 
 </body>
+
 </html>
