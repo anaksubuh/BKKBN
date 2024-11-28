@@ -1,262 +1,105 @@
 <!DOCTYPE html>
-<html lang="id">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Keluarga - Lihat Data</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-
-        select,
-        input,
-        button {
-            padding: 10px;
-            margin: 5px 0;
-            width: 200px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-
-        .container {
-            margin-top: 20px;
-        }
-
-        .form-container {
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 5px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data KB</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
+  <h1>Data Pendataan KB</h1>
 
-    <h1>Data Keluarga Berdasarkan Kelurahan, RW, dan RT</h1>
+  <!-- Form Input -->
+  <form id="data-form">
+    <label for="kelurahan">Kelurahan:</label>
+    <select id="kelurahan">
+      <option value="a">A</option>
+      <option value="b">B</option>
+      <option value="c">C</option>
+      <option value="d">D</option>
+      <option value="e">E</option>
+    </select>
 
-    <!-- Pilihan Kelurahan -->
-    <div class="form-container">
-        <h3>Pilih Lokasi</h3>
-        <label for="kelurahan">Kelurahan:</label>
-        <select id="kelurahan" onchange="updateRWOptions()">
-            <option value="WATES">WATES</option>
-            <option value="KERAMAT UTARA">KERAMAT UTARA</option>
-            <option value="KERAMAT SELATAN">KERAMAT SELATAN</option>
-            <option value="KEDUNGSARI">KEDUNGSARI</option>
-            <option value="POTROBANGSAN">POTROBANGSAN</option>
-        </select>
+    <label for="rt">RT:</label>
+    <select id="rt">
+      <option value="a">A</option>
+      <option value="b">B</option>
+      <option value="c">C</option>
+      <option value="d">D</option>
+      <option value="e">E</option>
+    </select>
 
-        <label for="rw">RW:</label>
-        <select id="rw" onchange="updateRTOptions()"></select>
+    <label for="rw">RW:</label>
+    <select id="rw">
+      <option value="a">A</option>
+      <option value="b">B</option>
+      <option value="c">C</option>
+      <option value="d">D</option>
+      <option value="e">E</option>
+    </select>
 
-        <label for="rt">RT:</label>
-        <select id="rt" onchange="loadData()"></select>
-    </div>
+    <label for="nama-suami">Nama Suami:</label>
+    <input type="text" id="nama-suami" required>
 
-    <!-- Tambah/Edit Data Keluarga -->
-    <div class="form-container">
-        <h3>Tambah/Edit Data Keluarga</h3>
-        <label for="namaSuami">Nama Suami:</label>
-        <input type="text" id="namaSuami" placeholder="Masukkan Nama Suami">
+    <label for="nik-suami">NIK Suami:</label>
+    <input type="text" id="nik-suami" required>
 
-        <label for="nikSuami">NIK Suami:</label>
-        <input type="text" id="nikSuami" placeholder="Masukkan NIK Suami">
+    <label for="nama-istri">Nama Istri:</label>
+    <input type="text" id="nama-istri" required>
 
-        <label for="namaIstri">Nama Istri:</label>
-        <input type="text" id="namaIstri" placeholder="Masukkan Nama Istri">
+    <label for="nik-istri">NIK Istri:</label>
+    <input type="text" id="nik-istri" required>
 
-        <label for="nikIstri">NIK Istri:</label>
-        <input type="text" id="nikIstri" placeholder="Masukkan NIK Istri">
+    <label for="tanggal-lahir">Tanggal Lahir Istri:</label>
+    <input type="date" id="tanggal-lahir" required>
 
-        <label for="tglLahirIstri">Tanggal Lahir Istri:</label>
-        <input type="date" id="tglLahirIstri">
+    <label for="jumlah-anak">Jumlah Anak:</label>
+    <input type="number" id="jumlah-anak" required>
 
-        <label for="umurIstri">Umur Istri:</label>
-        <input type="number" id="umurIstri" placeholder="Masukkan Umur">
+    <label for="status-kb">Status KB:</label>
+    <select id="status-kb">
+      <option value="a">A</option>
+      <option value="b">B</option>
+      <option value="c">C</option>
+      <option value="d">D</option>
+      <option value="e">E</option>
+    </select>
 
-        <label for="jumlahAnak">Jumlah Anak:</label>
-        <input type="number" id="jumlahAnak" placeholder="Jumlah Anak">
+    <label for="bulan">Bulan:</label>
+    <select id="bulan">
+      <option value="January">January</option>
+      <option value="February">February</option>
+      <!-- Tambahkan bulan lainnya -->
+    </select>
 
-        <label for="statusKb">Status KB:</label>
-        <select id="statusKb">
-            <option value="MOW">MOW</option>
-            <option value="MOP">MOP</option>
-            <option value="IMP">IMP</option>
-            <option value="S">S</option>
-            <option value="P">P</option>
-            <option value="K">K</option>
-            <option value="I">I</option>
-        </select>
+    <button type="submit">Simpan</button>
+  </form>
 
-        <label for="bulan">Bulan</label>
-        <select id="bulan" name="bulan">
-            <option value="Januari">Januari</option>
-            <option value="Februari">Februari</option>
-            <option value="Maret">Maret</option>
-            <option value="April">April</option>
-            <option value="Mei">Mei</option>
-            <option value="Juni">Juni</option>
-            <option value="Juli">Juli</option>
-            <option value="Agustus">Agustus</option>
-            <option value="September">September</option>
-            <option value="Oktober">Oktober</option>
-            <option value="November">November</option>
-            <option value="Desember">Desember</option>
-        </select>
+  <!-- Tabel Data -->
+  <input type="text" id="search" placeholder="Cari data...">
+  <table id="data-table">
+    <thead>
+      <tr>
+        <th>Kelurahan</th>
+        <th>RT</th>
+        <th>RW</th>
+        <th>Nama Suami</th>
+        <th>NIK Suami</th>
+        <th>Nama Istri</th>
+        <th>NIK Istri</th>
+        <th>Tanggal Lahir Istri</th>
+        <th>Umur Istri</th>
+        <th>Jumlah Anak</th>
+        <th>Status KB</th>
+        <th>Bulan</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data akan dimasukkan di sini -->
+    </tbody>
+  </table>
 
-        <button onclick="addData()">Simpan Data</button>
-    </div>
-
-    <!-- Tabel Data Keluarga -->
-    <div class="container">
-        <table id="dataTable">
-            <thead>
-                <tr>
-                    <th>Nama Suami</th>
-                    <th>NIK Suami</th>
-                    <th>Nama Istri</th>
-                    <th>NIK Istri</th>
-                    <th>Tanggal Lahir Istri</th>
-                    <th>Umur Istri</th>
-                    <th>Jumlah Anak</th>
-                    <th>Status KB</th>
-                    <th>Bulan</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Data akan dimuat di sini -->
-            </tbody>
-        </table>
-    </div>
-
-    <script>
-        const GITHUB_API_URL = "https://api.github.com/repos/anaksubuh/bkkbn.github.io/contents/data.json";
-        const GITHUB_TOKEN = "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";
-
-        async function updateRWOptions() {
-            const rwSelect = document.getElementById("rw");
-            rwSelect.innerHTML = "";
-            for (let i = 1; i <= 15; i++) {
-                const option = document.createElement("option");
-                option.value = `RW ${i}`;
-                option.textContent = `RW ${i}`;
-                rwSelect.appendChild(option);
-            }
-            updateRTOptions();
-        }
-
-        async function updateRTOptions() {
-            const rtSelect = document.getElementById("rt");
-            rtSelect.innerHTML = "";
-            for (let i = 1; i <= 20; i++) {
-                const option = document.createElement("option");
-                option.value = `RT ${i}`;
-                option.textContent = `RT ${i}`;
-                rtSelect.appendChild(option);
-            }
-        }
-
-        async function addData() {
-            const data = {
-                namaSuami: document.getElementById("namaSuami").value,
-                nikSuami: document.getElementById("nikSuami").value,
-                namaIstri: document.getElementById("namaIstri").value,
-                nikIstri: document.getElementById("nikIstri").value,
-                tglLahirIstri: document.getElementById("tglLahirIstri").value,
-                umurIstri: document.getElementById("umurIstri").value,
-                jumlahAnak: document.getElementById("jumlahAnak").value,
-                statusKb: document.getElementById("statusKb").value,
-                bulan: document.getElementById("bulan").value,
-            };
-
-            const existingData = await fetchFromGitHub();
-            existingData.push(data);
-
-            await saveToGitHub(existingData);
-        }
-
-        async function fetchFromGitHub() {
-            try {
-                const response = await fetch(GITHUB_API_URL, {
-                    headers: {
-                        Authorization: `Bearer ${GITHUB_TOKEN}`
-                    }
-                });
-                const data = await response.json();
-                const content = atob(data.content);
-                return JSON.parse(content);
-            } catch (error) {
-                console.error("Failed to fetch data from GitHub", error);
-                return [];
-            }
-        }
-
-        async function saveToGitHub(data) {
-            const content = btoa(JSON.stringify(data, null, 2));
-            const sha = await getSha();
-            const response = await fetch(GITHUB_API_URL, {
-                method: "PUT",
-                headers: {
-                    Authorization: `Bearer ${GITHUB_TOKEN}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    message: "Update data",
-                    content: content,
-                    ...(sha ? { sha } : {})
-                })
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-                alert("Data berhasil disimpan di GitHub!");
-            } else {
-                console.error("Gagal menyimpan data:", result);
-            }
-        }
-
-
-        if (response.ok) {
-            alert("Data berhasil disimpan di GitHub!");
-        } else {
-            console.error("Gagal menyimpan data", await response.text());
-        }
-        }
-
-        async function getSha() {
-            try {
-                const response = await fetch(GITHUB_API_URL, {
-                    headers: { Authorization: `Bearer ${GITHUB_TOKEN}` }
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    return data.sha; // Return SHA jika file ada
-                }
-            } catch (error) {
-                console.warn("File tidak ditemukan atau error: ", error);
-            }
-            return null; // Return null jika file tidak ditemukan
-        }
-
-
-        document.addEventListener("DOMContentLoaded", updateRWOptions);
-    </script>
-
+  <script src="script.js"></script>
 </body>
-
 </html>
